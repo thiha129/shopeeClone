@@ -9,6 +9,7 @@ import { login } from 'src/apis/auth.api'
 import Input from 'src/components/Input'
 import { AppContext } from 'src/contexts/app.context'
 import { useContext } from 'react'
+import Button from 'src/components/Button'
 
 type FormData = Omit<Schema, 'confirm_password'>
 const loginSchema = schema.omit(['confirm_password'])
@@ -24,11 +25,11 @@ export default function Login() {
     resolver: yupResolver(loginSchema)
   })
 
-  const registerAccountMutation = useMutation({
+  const loginMutation = useMutation({
     mutationFn: (body: Omit<FormData, 'confirm_password'>) => login(body)
   })
   const onSubmit = handleSubmit((data) => {
-    registerAccountMutation.mutate(data, {
+    loginMutation.mutate(data, {
       onSuccess: () => {
         setIsAuthenticated(true)
         navigate('/')
@@ -73,12 +74,14 @@ export default function Login() {
                 register={register}
               />
               <div className='mt-3'>
-                <button
+                <Button
                   type='submit'
-                  className='w-full text-center py-4 px-2 uppercase bg-red-500 text-white text-sm hover:bg-red-600'
+                  className='w-full  py-4 px-2 uppercase bg-red-500 text-white text-sm hover:bg-red-600 flex justify-center items-center'
+                  isLoading={loginMutation.isLoading}
+                  disabled={loginMutation.isLoading}
                 >
                   Đăng nhập
-                </button>
+                </Button>
               </div>
               <div className='mt-8 '>
                 <div className='flex items-center justify-center'>

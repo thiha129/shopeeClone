@@ -11,6 +11,7 @@ import { isAxiosUnprocessableEntityError } from 'src/utils/utils'
 import { ErrorResponse } from 'src/types/utils.type'
 import { useContext } from 'react'
 import { AppContext } from 'src/contexts/app.context'
+import Button from 'src/components/Button'
 
 type FormData = Schema
 export default function Register() {
@@ -38,7 +39,6 @@ export default function Register() {
       onError: (error) => {
         if (isAxiosUnprocessableEntityError<ErrorResponse<Omit<FormData, 'confirm_password'>>>(error)) {
           const formError = error.response?.data.data
-          //cách 1
           if (formError) {
             Object.keys(formError).forEach((key) => {
               setError(key as keyof Omit<FormData, 'confirm_password'>, {
@@ -47,19 +47,6 @@ export default function Register() {
               })
             })
           }
-          //cách 2
-          // if (formError?.email) {
-          //   setError('email', {
-          //     message: formError.email,
-          //     type: 'Server'
-          //   })
-          // }
-          // if (formError?.password) {
-          //   setError('password', {
-          //     message: formError.email,
-          //     type: 'Server'
-          //   })
-          // }
         }
       }
     })
@@ -79,15 +66,6 @@ export default function Register() {
                 errorMessage={errors.email?.message}
                 register={register}
               />
-              {/* <div className='mt-8'>
-                <input
-                  type='email'
-                  placeholder='Email'
-                  className='p-3 w-full outline-none border border-gray-300 focus:border-gray-500 rounded-sm shadow-sm'
-                  {...register('email', rules.email)}
-                />
-                <div className='nt-1 text-red-600 min-h-[1.25rem] text-sm'>{errors.email?.message}</div>
-              </div> */}
               <Input
                 name='password'
                 type='password'
@@ -96,16 +74,6 @@ export default function Register() {
                 errorMessage={errors.password?.message}
                 register={register}
               />
-              {/* <div className='mt-2'>
-                <input
-                  type='password'
-                  placeholder='Password'
-                  autoComplete='on'
-                  className='p-3 w-full outline-none border border-gray-300 focus:border-gray-500 rounded-sm shadow-sm'
-                  {...register('password', rules.password)}
-                />
-                <div className='nt-1 text-red-600 min-h-[1.25rem] text-sm'>{errors.password?.message}</div>
-              </div> */}
               <Input
                 name='confirm_password'
                 type='password'
@@ -114,22 +82,14 @@ export default function Register() {
                 errorMessage={errors.confirm_password?.message}
                 register={register}
               />
-              {/* <div className='mt-2'>
-                <input
-                  type='password'
-                  placeholder='Confirm Password'
-                  autoComplete='on'
-                  className='p-3 w-full outline-none border border-gray-300 focus:border-gray-500 rounded-sm shadow-sm'
-                  {...register('confirm_password', {
-                    ...rules.confirm_password
-                  })}
-                />
-                <div className='nt-1 text-red-600 min-h-[1.25rem] text-sm'>{errors.confirm_password?.message}</div>
-              </div> */}
               <div className='mt-2'>
-                <button className='w-full text-center py-4 px-2 uppercase bg-red-500 text-white text-sm hover:bg-red-600'>
+                <Button
+                  className='w-full  py-4 px-2 uppercase bg-red-500 text-white text-sm hover:bg-red-600 flex justify-center items-center'
+                  isLoading={registerAccountMutation.isLoading}
+                  disabled={registerAccountMutation.isLoading}
+                >
                   Đăng ký
-                </button>
+                </Button>
               </div>
               <div className='mt-8 '>
                 <div className='flex items-center justify-center'>
