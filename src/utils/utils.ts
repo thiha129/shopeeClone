@@ -20,5 +20,6 @@ export function formatNumberToSocialStyle(value: number) {
     maximumFractionDigits: 1
   })
     .format(value)
-    .replace('.', ',').toLowerCase()
+    .replace('.', ',')
+    .toLowerCase()
 }
