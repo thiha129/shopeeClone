@@ -18,9 +18,12 @@ export default function AsideFilter({ queryConfig, categories }: Props) {
   console.log('====================================')
   return (
     <div className='py-4'>
-      <Link to={path.home} className={classNames('flex items-center font-bold',{
-        'text-orange' :!category
-      })}>
+      <Link
+        to={path.home}
+        className={classNames('flex items-center font-bold', {
+          'text-orange': !category
+        })}
+      >
         <svg viewBox='0 0 12 10' className='w-3 h-4 mr-3 fill-current'>
           <g fillRule='evenodd' stroke='none' strokeWidth={1}>
             <g transform='translate(-373 -208)'>
