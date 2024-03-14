@@ -30,6 +30,7 @@ export default function ProductList() {
     },
     isUndefined
   )
+
   const { data: productsData } = useQuery({
     queryKey: ['product', queryConfig],
     queryFn: () => {
