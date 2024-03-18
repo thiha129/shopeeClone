@@ -1,16 +1,17 @@
+import classNames from 'classnames'
 import { Link, createSearchParams, useNavigate } from 'react-router-dom'
 import Button from 'src/components/Button'
-import { useForm, Controller } from 'react-hook-form'
-import path from 'src/constants/path'
-import { QueryConfig } from '../../ProductList'
-import { Category } from 'src/types/category.type'
-import classNames from 'classnames'
 import InputNumber from 'src/components/InputNumber'
+import path from 'src/constants/path'
+import { useForm, Controller } from 'react-hook-form'
 import { Schema, schema } from 'src/utils/rules'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { NoUndefinedField } from 'src/types/utils.type'
 import RatingStars from '../RatingStars'
 import { omit } from 'lodash'
+import { QueryConfig } from 'src/hooks/useQueryConfig'
+import { Category } from 'src/types/category.type'
+import { ObjectSchema } from 'yup'
 
 interface Props {
   queryConfig: QueryConfig
@@ -40,8 +41,7 @@ export default function AsideFilter({ queryConfig, categories }: Props) {
       price_min: '',
       price_max: ''
     },
-    resolver: yupResolver(priceSchema),
-    shouldFocusError: false
+    resolver: yupResolver<FormData>(priceSchema as ObjectSchema<FormData>)
   })
 
   const navigate = useNavigate()
