@@ -33,7 +33,7 @@ class Http {
       (response) => {
         const { url } = response.config
         if (url === path.login || url === path.register) {
-          const data = response.data as AuthResponse
+          const data = response.data as AuthResponse  
           this.accessToken = data.data.access_token
           setAccessTokenToLS(this.accessToken)
           setProfileToLS(data.data.user)
