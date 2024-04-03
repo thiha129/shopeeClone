@@ -9,6 +9,9 @@ import { formatCurrency, formatNumberToSocialStyle, getIdFromNameId, rateSale } 
 import Product from '../ProductList/components/Product'
 import QuantityController from 'src/components/QuantityController'
 import purchaseApi from 'src/apis/purchase.api'
+import { queryClient } from 'src/main'
+import { pusrchasesStatus } from 'src/constants/purchase'
+import { toast } from 'react-toastify'
 
 export default function ProductDetail() {
   const [buyCount, setBuyCount] = useState(1)
@@ -90,7 +93,17 @@ export default function ProductDetail() {
     setBuyCount(value)
   }
 
-  const addToCart = () => {addToCartMutation.mutate}
+  const addToCart = () => {
+    addToCartMutation.mutate(
+      { buy_count: buyCount, product_id: product?._id as string },
+      {
+        onSuccess: (data) => {
+          toast.success(data.data.message, { autoClose: 2000 })
+          queryClient.invalidateQueries({ queryKey: ['purchases', { status: pusrchasesStatus.inCart }] })
+        }
+      }
+    )
+  }
 
   if (!product) return null
   return (
@@ -194,7 +207,10 @@ export default function ProductDetail() {
                   <div className='ml-6 text-sm text-gray-500'>{product.quantity} sản phẩm có sẵn</div>
                 </div>
                 <div className='mt-8 flex items-center'>
-                  <button className='flex h-12 items-center justify-center rounded-sm border border-orange bg-orange/10 px-5 capitalize text-orange shadow-sm hover:bg-orange/5'>
+                  <button
+                    onClick={addToCart}
+                    className='flex h-12 items-center justify-center rounded-sm border border-orange bg-orange/10 px-5 capitalize text-orange shadow-sm hover:bg-orange/5'
+                  >
                     <svg
                       enableBackground='new 0 0 15 15'
                       viewBox='0 0 15 15'

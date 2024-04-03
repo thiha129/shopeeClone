@@ -1,4 +1,4 @@
-export const pusrchaseStatus = {
+export const pusrchasesStatus = {
   inCart: -1,
   all: 0,
   waitForGetting: 2,
