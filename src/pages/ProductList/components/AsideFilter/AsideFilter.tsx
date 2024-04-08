@@ -12,6 +12,7 @@ import { omit } from 'lodash'
 import { QueryConfig } from 'src/hooks/useQueryConfig'
 import { Category } from 'src/types/category.type'
 import { ObjectSchema } from 'yup'
+import InputV2 from 'src/components/InputV2'
 
 interface Props {
   queryConfig: QueryConfig
@@ -160,7 +161,18 @@ export default function AsideFilter({ queryConfig, categories }: Props) {
                 )
               }}
             />
-
+            {/* <InputV2
+              control={control}
+              name='price_min'
+              type='number'
+              className='grow'
+              placeholder='₫ TỪ'
+              classNameInput='p-1 w-full outline-none border border-gray-300 focus:border-gray-500 rounded-sm shadow-sm'
+              onChange={() => {
+                trigger('price_max')
+              }}
+              classNameError='hidden'
+            /> */}
             <div className='mx-2 mt-2 shrink-0'>-</div>
             <Controller
               control={control}
