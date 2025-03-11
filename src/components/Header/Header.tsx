@@ -1,4 +1,4 @@
-import { Link, NavLink, createSearchParams, useNavigate } from 'react-router-dom'
+import { Link, createSearchParams, useNavigate } from 'react-router-dom'
 import Popover from '../Popover'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import authApi from 'src/apis/auth.api'
