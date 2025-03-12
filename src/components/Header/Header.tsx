@@ -10,7 +10,7 @@ import { useForm } from 'react-hook-form'
 import { Schema, schema } from 'src/utils/rules'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { omit } from 'lodash'
-import { pusrchasesStatus } from 'src/constants/purchase'
+import { purchasesStatus } from 'src/constants/purchase'
 import purchaseApi from 'src/apis/purchase.api'
 
 import noproduct from 'src/assets/images/no-product.png'
@@ -35,8 +35,8 @@ export default function Header() {
   // (Tất nhiên là trừ trường hợp logout rồi nhảy sang RegisterLayout rồi nhảy vào lại)
   // Nên các query này sẽ không bị inactive => Không bị gọi lại => Không cần thiết phải set stale: Infinity
   const { data: purChasesInCartData } = useQuery({
-    queryKey: ['purchases', { status: pusrchasesStatus.inCart }],
-    queryFn: () => purchaseApi.getPurchases({ status: pusrchasesStatus.inCart }),
+    queryKey: ['purchases', { status: purchasesStatus.inCart }],
+    queryFn: () => purchaseApi.getPurchases({ status: purchasesStatus.inCart }),
     enabled: isAuthenticated
   })
 
@@ -47,7 +47,7 @@ export default function Header() {
     onSuccess: () => {
       setIsAuthenticated(false)
       setProfile(null)
-      queryClient.removeQueries({ queryKey: ['purchases', { status: pusrchasesStatus.inCart }] })
+      queryClient.removeQueries({ queryKey: ['purchases', { status: purchasesStatus.inCart }] })
     }
   })
   const handleLogout = () => {

@@ -10,7 +10,7 @@ import Product from '../ProductList/components/Product'
 import QuantityController from 'src/components/QuantityController'
 import purchaseApi from 'src/apis/purchase.api'
 import { queryClient } from 'src/main'
-import { pusrchasesStatus } from 'src/constants/purchase'
+import { purchasesStatus } from 'src/constants/purchase'
 import { toast } from 'react-toastify'
 
 export default function ProductDetail() {
@@ -99,7 +99,7 @@ export default function ProductDetail() {
       {
         onSuccess: (data) => {
           toast.success(data.data.message, { autoClose: 2000 })
-          queryClient.invalidateQueries({ queryKey: ['purchases', { status: pusrchasesStatus.inCart }] })
+          queryClient.invalidateQueries({ queryKey: ['purchases', { status: purchasesStatus.inCart }] })
         }
       }
     )
