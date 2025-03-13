@@ -173,7 +173,7 @@ export default function Cart() {
                                 name: purchase.product.name,
                                 id: purchase.product._id
                               })}`}
-                              className='h-20 w-20 flex-shrink-0'
+                              className='h-20 w-20 flex-shrink-0 '
                             >
                               <img alt={purchase.product.name} src={purchase.product.image} />
                             </Link>
@@ -183,7 +183,7 @@ export default function Cart() {
                                   name: purchase.product.name,
                                   id: purchase.product._id
                                 })}`}
-                                className='line-clamp-2'
+                                className='line-clamp-2 text-left'
                               >
                                 {purchase.product.name}
                               </Link>
