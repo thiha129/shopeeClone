@@ -11,6 +11,8 @@ import path from './constants/path'
 import ProductDetail from './pages/ProductDetail'
 import Cart from './pages/Cart'
 import CarLayout from './layouts/CarLayout'
+import UserLayout from './pages/User/layouts/UserLayout'
+import ChangePassword from './pages/User/pages/ChangePassword'
 
 // const isAuthenticated = true
 function ProtectedRoute() {
@@ -46,12 +48,23 @@ export default function useRouterElements() {
       element: <ProtectedRoute />,
       children: [
         {
-          path: path.profile,
+          path: path.user,
           element: (
             <MainLayout>
-              <Profile />
+              <UserLayout />
             </MainLayout>
-          )
+          ),
+
+          children: [
+            {
+              path: path.profile,
+              element: <Profile />
+            },
+            {
+              path: path.changePassword,
+              element: <ChangePassword />
+            }
+          ]
         },
         {
           path: path.cart,
