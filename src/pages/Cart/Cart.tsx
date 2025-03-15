@@ -13,7 +13,6 @@ import { keyBy } from 'lodash'
 import { toast } from 'react-toastify'
 import { AppContext } from 'src/contexts/app.context'
 import noproduct from 'src/assets/images/no-product.png'
-import { patch } from 'node_modules/axios/index.d.cts'
 
 export default function Cart() {
   const { extendedPurchases, setExtendedPurchases } = useContext(AppContext)
