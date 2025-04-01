@@ -7,8 +7,11 @@ import { userSchema, UserSchema } from 'src/utils/rules'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import InputNumber from 'src/components/InputNumber'
-import { useEffect } from 'react'
+import { useContext, useEffect } from 'react'
 import DataSelect from '../../components/DateSelect'
+import { toast } from 'react-toastify'
+import { AppContext } from 'src/contexts/app.context'
+import { setProfileToLS } from 'src/utils/auth'
 
 type FormData = Pick<UserSchema, 'name' | 'address' | 'phone' | 'date_of_birth' | 'avatar'>
 
@@ -21,20 +24,20 @@ const profileSchema = userSchema.pick([
 ]) as yup.ObjectSchema<FormData>
 
 export default function Profile() {
-  const { data: profileData } = useQuery({
+  const { setProfile } = useContext(AppContext)
+  const { data: profileData, refetch } = useQuery({
     queryKey: ['profile'],
     queryFn: userApi.getProfile
   })
   const profile = profileData?.data.data
-  const updateProfileMuatation = useMutation(userApi.updateProfile)
+  const updateProfileMutation = useMutation(userApi.updateProfile)
   const {
     register,
     control,
     formState: { errors },
     handleSubmit,
     setValue,
-    watch,
-    setError
+    watch
   } = useForm<FormData>({
     defaultValues: {
       name: '',
@@ -58,8 +61,11 @@ export default function Profile() {
 
   const onSubmit = handleSubmit(async (data) => {
     console.log(data)
-
-    // await updateProfileMuatation.mutateAsync({})
+    const res = await updateProfileMutation.mutateAsync({ ...data, date_of_birth: data.date_of_birth?.toISOString() })
+    setProfile(res.data.data)
+    setProfileToLS(res.data.data)
+    refetch()
+    toast.success(res.data.message)
   })
 
   const value = watch()
@@ -138,7 +144,7 @@ export default function Profile() {
             <div className='sm:w-[80%] sm:pl-5'>
               <Button
                 type='submit'
-                className='flex items-center h-9 bg-orange px-5 text-center text-sm text-white hover:bg-orange/80'
+                className='flex items-center h-9 bg-orange px-5 text-center text-sm text-white hover:bg-orange/80 rounded-sm'
               >
                 Lưu
               </Button>

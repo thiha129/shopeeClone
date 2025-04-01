@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import { useContext } from 'react'
 import Popover from '../Popover'
 import { AppContext } from 'src/contexts/app.context'
 import { Link } from 'react-router-dom'
@@ -6,7 +6,7 @@ import path from 'src/constants/path'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import authApi from 'src/apis/auth.api'
 import { purchasesStatus } from 'src/constants/purchase'
-
+import userImage from 'src/assets/images/user.svg'
 export default function NavHeader() {
   const { isAuthenticated, setIsAuthenticated, setProfile, profile } = useContext(AppContext)
   const queryClient = useQueryClient()
@@ -87,11 +87,7 @@ export default function NavHeader() {
           }
         >
           <div className='w-6 h-6 mr-2 flex-shink-0'>
-            <img
-              src='https://down-vn.img.susercontent.com/file/vn-11134004-7qukw-ljmvgkjn069g16_tn'
-              alt='avatar'
-              className='w-full h-full object-cover rounded-full'
-            />
+            <img src={profile?.avatar || userImage} alt='avatar' className='w-full h-full object-cover rounded-full' />
           </div>
           <div>{profile?.email}</div>
         </Popover>
