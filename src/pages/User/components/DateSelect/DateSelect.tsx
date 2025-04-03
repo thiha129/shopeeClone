@@ -1,5 +1,5 @@
-import { range } from 'lodash'
-import React, { useEffect, useState } from 'react'
+import range from 'lodash/range'
+import { useEffect, useState } from 'react'
 
 interface Props {
   onChange?: (value: Date) => void
@@ -7,7 +7,7 @@ interface Props {
   errorMessage?: string
 }
 
-export default function DateSelect({ onChange, value, errorMessage }: Props) {
+export default function DateSelect({ value, onChange, errorMessage }: Props) {
   const [date, setDate] = useState({
     date: value?.getDate() || 1,
     month: value?.getMonth() || 0,
@@ -22,6 +22,7 @@ export default function DateSelect({ onChange, value, errorMessage }: Props) {
       })
     }
   }, [value])
+
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const { value: valueFromSelect, name } = event.target
     const newDate = {
