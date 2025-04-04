@@ -51,7 +51,7 @@ function Info() {
                 onChange={field.onChange}
               />
             )}
-          ></Controller>
+          />
         </div>
       </div>
     </Fragment>
@@ -199,7 +199,7 @@ export default function Profile() {
                   value={field.value}
                 />
               )}
-            ></Controller>
+            />
             <div className='mt-2 flex flex-wrap flex-col sm:flex-row '>
               <div className='w-[20%] truncate pt-3 sm:text-right capitalize' />
               <div className='sm:w-[80%] sm:pl-5'>
