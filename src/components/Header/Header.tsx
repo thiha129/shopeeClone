@@ -16,7 +16,7 @@ import useSearchProducts from 'src/hooks/useSearchProducts'
 const MAX_PURCHASE = 5
 
 export default function Header() {
-  const { isAuthenticated,profile } = useContext(AppContext)
+  const { isAuthenticated } = useContext(AppContext)
   const { onSubmitSearch, register } = useSearchProducts()
   // Khi chúng ta chuyển trang thì Header chỉ bị re-render
   // Chứ không bị unmount - mounting again
