@@ -12,7 +12,6 @@ import { omit } from 'lodash'
 import { QueryConfig } from 'src/hooks/useQueryConfig'
 import { Category } from 'src/types/category.type'
 import { ObjectSchema } from 'yup'
-import InputV2 from 'src/components/InputV2'
 
 interface Props {
   queryConfig: QueryConfig
