@@ -5,6 +5,7 @@ import config from 'src/constants/config'
 interface Props {
   onChange?: (file?: File) => void
 }
+
 export default function InputFile({ onChange }: Props) {
   const fileInputRef = useRef<HTMLInputElement>(null)
 
@@ -37,8 +38,8 @@ export default function InputFile({ onChange }: Props) {
         }}
       />
       <button
-        type='button'
         className='flex h-10 items-center justify-end rounded-sm border bg-white px-6 text-sm text-gray-600 shadow-sm'
+        type='button'
         onClick={handleUpload}
       >
         Chọn ảnh

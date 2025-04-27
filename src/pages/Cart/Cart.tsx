@@ -43,7 +43,6 @@ export default function Cart() {
     }
   })
   const location = useLocation()
-  console.log(location)
 
   const chosenPurchaseIdFromLocation = (location.state as { purchaseId: string } | null)?.purchaseId
 
