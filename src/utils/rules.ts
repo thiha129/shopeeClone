@@ -1,5 +1,6 @@
 import type { RegisterOptions, UseFormGetValues } from 'react-hook-form'
 import * as yup from 'yup'
+
 type Rules = { [key in 'email' | 'password' | 'confirm_password']?: RegisterOptions }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -7,11 +8,11 @@ export const getRules = (getValues?: UseFormGetValues<any>): Rules => ({
   email: {
     required: {
       value: true,
-      message: 'Email is required'
+      message: 'Email là bắt buộc'
     },
     pattern: {
       value: /^\S+@\S+\.\S+$/,
-      message: 'Please enter a valid email address'
+      message: 'Email không đúng định dạng'
     },
     maxLength: {
       value: 160,
@@ -25,7 +26,7 @@ export const getRules = (getValues?: UseFormGetValues<any>): Rules => ({
   password: {
     required: {
       value: true,
-      message: 'Password is required'
+      message: 'Password là bắt buộc'
     },
     maxLength: {
       value: 160,
@@ -39,19 +40,19 @@ export const getRules = (getValues?: UseFormGetValues<any>): Rules => ({
   confirm_password: {
     required: {
       value: true,
-      message: 'Nhập lại password is required'
+      message: 'Nhập lại password là bắt buộc'
     },
     maxLength: {
       value: 160,
-      message: 'Độ dài từ 5 - 160 ký tự'
+      message: 'Độ dài từ 6 - 160 ký tự'
     },
     minLength: {
-      value: 5,
-      message: 'Độ dài từ 5 - 160 ký tự'
+      value: 6,
+      message: 'Độ dài từ 6 - 160 ký tự'
     },
     validate:
-      typeof getValues == 'function'
-        ? (value) => value == getValues('password') || 'Nhập lại password không khớp'
+      typeof getValues === 'function'
+        ? (value) => value === getValues('password') || 'Nhập lại password không khớp'
         : undefined
   }
 })
@@ -88,12 +89,12 @@ export const schema = yup.object({
   confirm_password: handleConfirmPasswordYup('password'),
   price_min: yup.string().test({
     name: 'price-not-allowed',
-    message: 'Giá không phù hơp',
+    message: 'Giá không phù hợp',
     test: testPriceMinMax
   }),
   price_max: yup.string().test({
     name: 'price-not-allowed',
-    message: 'Giá không phù hơp',
+    message: 'Giá không phù hợp',
     test: testPriceMinMax
   }),
   name: yup.string().trim().required('Tên sản phẩm là bắt buộc')

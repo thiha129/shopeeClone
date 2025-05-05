@@ -1,7 +1,7 @@
 import axios, { AxiosError, type AxiosInstance } from 'axios'
 import HttpStatusCode from 'src/constants/httpStatusCode.enum'
 import { toast } from 'react-toastify'
-import { AuthResponse, RefreshTokenResponse } from 'src/types/auth.type'
+import { AuthResponse, RefreshTokenReponse } from 'src/types/auth.type'
 import {
   clearLS,
   getAccessTokenFromLS,
@@ -125,7 +125,7 @@ export class Http {
   }
   private handleRefreshToken() {
     return this.instance
-      .post<RefreshTokenResponse>(URL_REFRESH_TOKEN, {
+      .post<RefreshTokenReponse>(URL_REFRESH_TOKEN, {
         refresh_token: this.refreshToken
       })
       .then((res) => {
@@ -142,7 +142,5 @@ export class Http {
       })
   }
 }
-
 const http = new Http().instance
-
 export default http

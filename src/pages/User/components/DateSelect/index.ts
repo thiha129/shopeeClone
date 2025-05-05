@@ -1,3 +1,3 @@
-import DataSelect from './DateSelect'
+import DateSelect from './DateSelect'
 
-export default DataSelect
+export default DateSelect

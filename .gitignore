@@ -12,8 +12,7 @@ dist
 dist-ssr
 *.local
 stats.html
-
-
+coverage/
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
@@ -24,3 +23,5 @@ stats.html
 *.njsproj
 *.sln
 *.sw?
+
+*storybook.log

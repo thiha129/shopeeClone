@@ -5,7 +5,7 @@ import purchaseApi from 'src/apis/purchase.api'
 import path from 'src/constants/path'
 import { purchasesStatus } from 'src/constants/purchase'
 import useQueryParams from 'src/hooks/useQueryParams'
-import { PurchaseListStatus } from '../../../../types/purchase.type'
+import { PurchaseListStatus } from 'src/types/purchase.type'
 import { formatCurrency, generateNameId } from 'src/utils/utils'
 
 const purchaseTabs = [
@@ -21,12 +21,12 @@ export default function HistoryPurchase() {
   const queryParams: { status?: string } = useQueryParams()
   const status: number = Number(queryParams.status) || purchasesStatus.all
 
-  const { data: purChasesInCartData } = useQuery({
+  const { data: purchasesInCartData } = useQuery({
     queryKey: ['purchases', { status }],
     queryFn: () => purchaseApi.getPurchases({ status: status as PurchaseListStatus })
   })
 
-  const purchasesInCart = purChasesInCartData?.data.data
+  const purchasesInCart = purchasesInCartData?.data.data
 
   const purchaseTabsLink = purchaseTabs.map((tab) => (
     <Link
@@ -37,7 +37,7 @@ export default function HistoryPurchase() {
           status: String(tab.status)
         }).toString()
       }}
-      className={classNames('flex flex-1 items-center justify-center border-b-2 bg-white p-4 text-center', {
+      className={classNames('flex flex-1 items-center justify-center border-b-2 bg-white py-4 text-center', {
         'border-b-orange text-orange': status === tab.status,
         'border-b-black/10 text-gray-900': status !== tab.status
       })}
@@ -50,26 +50,26 @@ export default function HistoryPurchase() {
     <div>
       <div className='overflow-x-auto'>
         <div className='min-w-[700px]'>
-          <div className='sticky top-0 flex rounded-t-sm shadow-md '>{purchaseTabsLink}</div>
+          <div className='sticky top-0 flex rounded-t-sm shadow-sm'>{purchaseTabsLink}</div>
           <div>
             {purchasesInCart?.map((purchase) => (
               <div key={purchase._id} className='mt-4 rounded-sm border-black/10 bg-white p-6 text-gray-800 shadow-sm'>
                 <Link
-                  className='flex '
                   to={`${path.home}${generateNameId({ name: purchase.product.name, id: purchase.product._id })}`}
+                  className='flex'
                 >
                   <div className='flex-shrink-0'>
-                    <img src={purchase.product.image} alt={purchase.product.name} className='h-20 w-20 object-cover ' />
+                    <img className='h-20 w-20 object-cover' src={purchase.product.image} alt={purchase.product.name} />
                   </div>
-                  <div className='flex-grow ml-3 overflow-hidden'>
+                  <div className='ml-3 flex-grow overflow-hidden'>
                     <div className='truncate'>{purchase.product.name}</div>
                     <div className='mt-3'>x{purchase.buy_count}</div>
                   </div>
-                  <div className='flex-grow ml-3'>
+                  <div className='ml-3 flex-shrink-0'>
                     <span className='truncate text-gray-500 line-through'>
                       ₫{formatCurrency(purchase.product.price_before_discount)}
                     </span>
-                    <span className='truncate text-orange ml-2 '>₫{formatCurrency(purchase.product.price)}</span>
+                    <span className='ml-2 truncate text-orange'>₫{formatCurrency(purchase.product.price)}</span>
                   </div>
                 </Link>
                 <div className='flex justify-end'>

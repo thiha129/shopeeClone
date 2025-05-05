@@ -1,40 +1,39 @@
-import { Link } from 'react-router-dom'
-import Popover from '../Popover'
+import { useQuery } from '@tanstack/react-query'
 import { useContext } from 'react'
-import { AppContext } from 'src/contexts/app.context'
+import { Link } from 'react-router-dom'
 import path from 'src/constants/path'
-
+import { AppContext } from 'src/contexts/app.context'
+import Popover from '../Popover'
 import { purchasesStatus } from 'src/constants/purchase'
 import purchaseApi from 'src/apis/purchase.api'
-
 import noproduct from 'src/assets/images/no-product.png'
 import { formatCurrency } from 'src/utils/utils'
 import NavHeader from '../NavHeader'
-import { useQuery } from '@tanstack/react-query'
 import useSearchProducts from 'src/hooks/useSearchProducts'
 
-const MAX_PURCHASE = 5
-
+const MAX_PURCHASES = 5
 export default function Header() {
   const { isAuthenticated } = useContext(AppContext)
   const { onSubmitSearch, register } = useSearchProducts()
+
   // Khi chúng ta chuyển trang thì Header chỉ bị re-render
   // Chứ không bị unmount - mounting again
   // (Tất nhiên là trừ trường hợp logout rồi nhảy sang RegisterLayout rồi nhảy vào lại)
-  // Nên các query này sẽ không bị inactive => Không bị gọi lại => Không cần thiết phải set stale: Infinity
-  const { data: purChasesInCartData } = useQuery({
+  // Nên các query này sẽ không bị inactive => Không bị gọi lại => không cần thiết phải set stale: Infinity
+
+  const { data: purchasesInCartData } = useQuery({
     queryKey: ['purchases', { status: purchasesStatus.inCart }],
     queryFn: () => purchaseApi.getPurchases({ status: purchasesStatus.inCart }),
     enabled: isAuthenticated
   })
 
-  const purchasesInCart = purChasesInCartData?.data.data
+  const purchasesInCart = purchasesInCartData?.data.data
 
   return (
-    <div className='pb-5 pt-2 bg-[linear-gradient(-180deg,#f53d2d,#f63);] text-white'>
+    <div className='bg-[linear-gradient(-180deg,#f53d2d,#f63)] pb-5 pt-2 text-white'>
       <div className='container'>
         <NavHeader />
-        <div className='grid grid-cols-12 gap-4 mt-4 items-end '>
+        <div className='mt-4 grid grid-cols-12 items-end gap-4'>
           <Link to='/' className='col-span-2'>
             <svg viewBox='0 0 192 65' className='h-11 w-full fill-white'>
               <g fillRule='evenodd'>
@@ -43,21 +42,21 @@ export default function Header() {
             </svg>
           </Link>
           <form className='col-span-9' onSubmit={onSubmitSearch}>
-            <div className='bg-white rounded-sm p-1 flex ml-2'>
+            <div className='flex rounded-sm bg-white p-1'>
               <input
                 type='text'
-                className='text-black px-3 py-2 flex-grow border-none outline-none bg-transparent'
-                placeholder='Free Ship đơn từ 0Đ'
+                className='flex-grow border-none bg-transparent px-3 py-2 text-black outline-none'
+                placeholder='Free Ship Đơn Từ 0Đ'
                 {...register('name')}
               />
-              <button className='rounded-sm py-2 px-6 flex-shrink-0 bg-orange hover:opacity-90'>
+              <button className='flex-shrink-0 rounded-sm bg-orange py-2 px-6 hover:opacity-90'>
                 <svg
                   xmlns='http://www.w3.org/2000/svg'
                   fill='none'
                   viewBox='0 0 24 24'
                   strokeWidth={1.5}
                   stroke='currentColor'
-                  className='w-6 h-6'
+                  className='h-6 w-6'
                 >
                   <path
                     strokeLinecap='round'
@@ -71,21 +70,21 @@ export default function Header() {
           <div className='col-span-1 justify-self-end'>
             <Popover
               renderPopover={
-                <div className='bg-white relative shadow-md rounded-sm border border-gray-200 max-w-[400px] text-sm'>
+                <div className='relative  max-w-[400px] rounded-sm border border-gray-200 bg-white text-sm shadow-md'>
                   {purchasesInCart && purchasesInCart.length > 0 ? (
                     <div className='p-2'>
-                      <div className='text-gray-400 capitalize'>Sản phẩm mới thêm</div>
+                      <div className='capitalize text-gray-400'>Sản phẩm mới thêm</div>
                       <div className='mt-5'>
-                        {purchasesInCart?.slice(0, MAX_PURCHASE).map((purchase) => (
-                          <div className='mt-2 py-2 flex hover:bg-gray-100' key={purchase._id}>
+                        {purchasesInCart.slice(0, MAX_PURCHASES).map((purchase) => (
+                          <div className='mt-2 flex py-2 hover:bg-gray-100' key={purchase._id}>
                             <div className='flex-shrink-0'>
                               <img
                                 src={purchase.product.image}
                                 alt={purchase.product.name}
-                                className='w-11 h-11 object-cover'
+                                className='h-11 w-11 object-cover'
                               />
                             </div>
-                            <div className='flex-grow ml-2 overflow-hidden'>
+                            <div className='ml-2 flex-grow overflow-hidden'>
                               <div className='truncate'>{purchase.product.name}</div>
                             </div>
                             <div className='ml-2 flex-shrink-0'>
@@ -94,14 +93,14 @@ export default function Header() {
                           </div>
                         ))}
                       </div>
-                      <div className='flex mt-6 items-center justify-between'>
-                        <div className='capitalize text-xs text-gray-500 '>
-                          {purchasesInCart?.length > MAX_PURCHASE ? purchasesInCart?.length - MAX_PURCHASE : ''} Thêm
-                          vào giỏ hàng
+                      <div className='mt-6 flex items-center justify-between'>
+                        <div className='text-xs capitalize text-gray-500'>
+                          {purchasesInCart.length > MAX_PURCHASES ? purchasesInCart.length - MAX_PURCHASES : ''} Thêm
+                          hàng vào giỏ
                         </div>
                         <Link
                           to={path.cart}
-                          className='capitalize bg-orange hover:bg-opacity-90 px-4 py-2 rounded-sm text-white'
+                          className='rounded-sm bg-orange px-4 py-2 capitalize text-white hover:bg-opacity-90'
                         >
                           Xem giỏ hàng
                         </Link>
@@ -123,7 +122,7 @@ export default function Header() {
                   viewBox='0 0 24 24'
                   strokeWidth={1.5}
                   stroke='currentColor'
-                  className='w-8 h-8'
+                  className='h-8 w-8'
                 >
                   <path
                     strokeLinecap='round'
@@ -132,7 +131,7 @@ export default function Header() {
                   />
                 </svg>
                 {purchasesInCart && purchasesInCart.length > 0 && (
-                  <span className='absolute top-[-5px] left-[17px] rounded-full px-[7px] py-[0px] bg-white text-orange text-xs'>
+                  <span className='absolute top-[-5px] left-[17px] rounded-full bg-white px-[9px] py-[1px] text-xs text-orange '>
                     {purchasesInCart?.length}
                   </span>
                 )}
